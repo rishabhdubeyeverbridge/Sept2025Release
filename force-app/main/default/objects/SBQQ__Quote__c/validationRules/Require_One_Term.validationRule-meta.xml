@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_One_Term</fullName>
+    <active>true</active>
+    <description>Rule to require 1 Terms option to be selected.  The Standard Terms option is selected by default.  Only 1 option can be selected.  Added 1/10/17 to prevent submitting Quotes without terms and conditions.</description>
+    <errorConditionFormula>AND(
+(IF(CMAS_Terms__c = FALSE, 0, 1) + 
+IF(GSA_Terms__c = FALSE, 0,1) +
+ IF( NCR_Terms__c = FALSE , 0, 1) +
+IF( Partner_Quote_Terms_Renewal__c= FALSE , 0, 1) +
+IF( Partner_Terms_New_Bus_w_out_Flow_Thru__c= FALSE , 0, 1) +
+ IF(Corp_Terms_Under_10k__c = FALSE,0,1) +
+IF(Redsky_Direct_Renewal_Terms__c= FALSE,0,1) + 
+IF(Redsky_Partners_w_out_Flow_Through__c= FALSE,0,1)+ 
+IF(RedSky_Partners_With_Flow_Through__c= FALSE,0,1) + 
+IF(Standard_Terms__c = FALSE,0,1) +
+IF(Tech_Data_Terms__c= FALSE,0,1) + 
+IF( VITA_Terms__c= FALSE,0,1)+ 
+IF(xM_Renewal_Terms__c = FALSE, 0,1)+
+IF(Anvil_Renewal_Terms__c= FALSE, 0,1)+
+IF(Legacy_Minute_Terms__c= FALSE, 0,1)+
+IF(Redsky_Direct_New_Business__c= FALSE, 0,1)
+
+&lt;&gt; 1),
+
+NOT(ISBLANK( SBQQ__Opportunity2__c )),NOT(AutoRenewalQuote__c),
+$Profile.Id != &apos;00e30000000m0kO&apos;,
+$User.LastName != &apos;CPQ&apos;,
+NOT(ISPICKVAL(SBQQ__Type__c, &quot;Renewal&quot;)))</errorConditionFormula>
+    <errorMessage>Please select the appropriate Terms &amp; Conditions to be included with the Quote.  You can only select one per quote.</errorMessage>
+</ValidationRule>
