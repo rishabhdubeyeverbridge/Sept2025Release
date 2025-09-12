@@ -30,42 +30,6 @@
     <apiVersion>64.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
-        <name>Check_Auto_Renewals</name>
-        <label>Check Auto Renewals</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Primary_Quote</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.SBQQ__PrimaryQuote__r.Price_Increase_Reason__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>Auto-Renewal</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.SBQQ__PrimaryQuote__r.Price_Increase_Reason__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>Nixle Auto-Renewals</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.SBQQ__PrimaryQuote__r.Price_Increase_Reason__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>Low Touch Auto Renewal</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Get_Related_Contracts</targetReference>
-            </connector>
-            <label>Primary Quote</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Record_Found</name>
         <label>Record Found</label>
         <locationX>0</locationX>
@@ -141,7 +105,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Check_Auto_Renewals</targetReference>
+            <targetReference>Get_Related_Contracts</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
         <filterLogic>and</filterLogic>
