@@ -3,45 +3,46 @@
     <fullName>Validate_GSA_Terms_Against_Opp</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-    NOT(
-        $Profile.Name = &quot;Everbridge Deal Management&quot; ||
-        $Profile.Name = &quot;Everbridge Super User - Sales Ops&quot; ||
-        $Profile.Name = &quot;System Administrator&quot;
-    ),
-    OR(
-        AND(
-            ISPICKVAL(SBQQ__Opportunity2__r.GSA_Purchase__c , &quot;No&quot;),
-            GSA_Terms__c = true
-        ),
-        AND(
-            ISPICKVAL(SBQQ__Opportunity2__r.GSA_Purchase__c, &quot;Yes&quot;),
-            NOT(GSA_Terms__c)
-        ),
-        AND(
-            ISPICKVAL(SBQQ__Opportunity2__r.GSA_Purchase__c, &quot;Yes&quot;),
-            OR(
-                CMAS_Terms__c,
-                NCR_Terms__c,
-                Partner_Quote_Terms_Renewal__c,
-                Partner_Terms_New_Bus_w_out_Flow_Thru__c,
-                Corp_Terms_Under_10k__c,
-                Redsky_Direct_Renewal_Terms__c,
-                Redsky_Partners_w_out_Flow_Through__c,
-                RedSky_Partners_With_Flow_Through__c,
-                Standard_Terms__c,
-                Tech_Data_Terms__c,
-                VITA_Terms__c,
-                xM_Renewal_Terms__c,
-                Anvil_Renewal_Terms__c,
-                Legacy_Minute_Terms__c,
-                Redsky_Direct_New_Business__c
-            )
-        )
-    )
+NOT(
+
+$Profile.Name = &quot;System Administrator&quot; ||
+$Profile.Name = &quot;Everbridge Deal Management&quot; 
+
+),
+OR(
+AND(
+ISPICKVAL(SBQQ__Opportunity2__r.GSA_Purchase__c , &quot;No&quot;),
+GSA_Terms__c = true
+),
+AND(
+ISPICKVAL(SBQQ__Opportunity2__r.GSA_Purchase__c, &quot;Yes&quot;),
+NOT(GSA_Terms__c)
+),
+AND(
+ISPICKVAL(SBQQ__Opportunity2__r.GSA_Purchase__c, &quot;Yes&quot;),
+OR(
+CMAS_Terms__c,
+NCR_Terms__c,
+Partner_Quote_Terms_Renewal__c,
+Partner_Terms_New_Bus_w_out_Flow_Thru__c,
+Corp_Terms_Under_10k__c,
+Redsky_Direct_Renewal_Terms__c,
+Redsky_Partners_w_out_Flow_Through__c,
+RedSky_Partners_With_Flow_Through__c,
+Standard_Terms__c,
+Tech_Data_Terms__c,
+VITA_Terms__c,
+xM_Renewal_Terms__c,
+Anvil_Renewal_Terms__c,
+Legacy_Minute_Terms__c,
+Redsky_Direct_New_Business__c
+)
+)
+)
 )</errorConditionFormula>
-    <errorMessage>Invalid Terms Selection:
+    <errorMessage>&quot;Invalid Terms Selection:
 
-When GSA Purchase = Yes → Only GSA Terms is allowed.
+When GSA Purchase on Opportunity = Yes → Only GSA Terms is allowed on Quote. 
 
-When GSA Purchase = No → GSA Terms is not allowed, but other terms are permitted.</errorMessage>
+When GSA Purchase on Opportunity = No → GSA Terms is not allowed on Quote, but other terms are permitted.&quot;</errorMessage>
 </ValidationRule>
