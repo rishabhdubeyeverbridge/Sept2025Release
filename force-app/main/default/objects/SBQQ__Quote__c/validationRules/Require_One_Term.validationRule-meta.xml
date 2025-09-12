@@ -25,7 +25,7 @@ IF(Redsky_Direct_New_Business__c= FALSE, 0,1)
 
 NOT(ISBLANK( SBQQ__Opportunity2__c )),NOT(AutoRenewalQuote__c),
 $Profile.Id != &apos;00e30000000m0kO&apos;,
-$User.LastName != &apos;CPQ&apos;,
-NOT(ISPICKVAL(SBQQ__Type__c, &quot;Renewal&quot;)))</errorConditionFormula>
+$User.LastName != &apos;CPQ&apos;
+)</errorConditionFormula>
     <errorMessage>Please select the appropriate Terms &amp; Conditions to be included with the Quote.  You can only select one per quote.</errorMessage>
 </ValidationRule>

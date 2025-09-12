@@ -33,7 +33,7 @@ IF(Snap_US_Terms__c=FALSE,0,1) )&gt;0 ,
 
 NOT(ISBLANK( SBQQ__Opportunity2__c )),NOT(AutoRenewalQuote__c),
 $Profile.Id != &apos;00e30000000m0kO&apos;,
-$User.LastName != &apos;CPQ&apos;,
-NOT(ISPICKVAL(SBQQ__Type__c, &quot;Renewal&quot;)))</errorConditionFormula>
+$User.LastName != &apos;CPQ&apos;
+)</errorConditionFormula>
     <errorMessage>Legacy Terms can not be selected on Quote.</errorMessage>
 </ValidationRule>
