@@ -31,7 +31,7 @@ IF(Snap_NZ_Terms__c=FALSE,0,1) +
 IF(Snap_Renewal_Terms__c=FALSE,0,1) +
 IF(Snap_US_Terms__c=FALSE,0,1) )&gt;0 ,
 
-NOT(ISBLANK( SBQQ__Opportunity2__c )),NOT(AutoRenewalQuote__c),
+NOT(ISBLANK( SBQQ__Opportunity2__c )),
 $Profile.Id != &apos;00e30000000m0kO&apos;,
 $User.LastName != &apos;CPQ&apos;
 )</errorConditionFormula>
