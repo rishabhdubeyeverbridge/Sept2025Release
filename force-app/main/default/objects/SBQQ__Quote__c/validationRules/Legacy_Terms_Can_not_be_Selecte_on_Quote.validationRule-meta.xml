@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legacy_Terms_Can_not_be_Selecte_on_Quote</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+(IF(Message_Credit_Amendment__c=FALSE,0,1) +
+IF(NC4_Risk_Center_Quote_Terms__c=FALSE,0,1) +
+IF(Partner_Quote_Terms_New_Business__c=FALSE,0,1) +
+IF(EMEA_Message_Credit_Term_Existing_Cust__c=FALSE,0,1) +
+IF(FLDEM_Terms__c=FALSE,0,1) +
+IF(Message_Credit_Note__c=FALSE,0,1) +
+IF(NC4_Signal_Quote_Terms__c=FALSE,0,1) +
+IF(Nixle_Renewal__c=FALSE,0,1) +
+IF(Redsky_Partner_Renewal_Terms_w_out_Flow__c=FALSE,0,1) +
+IF(Snap_UK_Terms__c=FALSE,0,1) +
+IF(Standard_EMEA_Terms__c=FALSE,0,1) +
+IF(Standard_SKAB_Terms__c=FALSE,0,1) +
+IF(xMatters_Quote_Terms__c=FALSE,0,1) +
+IF(Danish_Quote_Terms_With_MSA_Hyperlink__c=FALSE,0,1) +
+IF(Dutch_Quote_Terms_with_MSA_Hyperlink__c=FALSE,0,1) +
+IF(Finnish_Quote_Terms_With_MSA_Hyperlink__c=FALSE,0,1) +
+IF(LatAm_Quote_Terms_With_MSA_Hyperlink__c=FALSE,0,1) +
+IF(Norweigan_Quote_Terms_With_MSA_Hyperlink__c=FALSE,0,1) +
+IF(Spain_Quote_Terms_With_MSA_Hyperlink__c=FALSE,0,1) +
+IF(SKAB_Terms_with_Link__c=FALSE,0,1) +
+IF(Swedish_Quote_Terms_With_MSA_Hyperlink__c=FALSE,0,1) +
+IF(CAD_Terms_Under_10k__c=FALSE,0,1) +
+IF(EMEA_Terms__c=FALSE,0,1) +
+IF(SLG_Terms_Under_10k__c=FALSE,0,1) +
+IF(Snap_NZ_Terms__c=FALSE,0,1) +
+IF(Snap_Renewal_Terms__c=FALSE,0,1) +
+IF(Snap_US_Terms__c=FALSE,0,1) )&gt;0 ,
+
+NOT(ISBLANK( SBQQ__Opportunity2__c )),
+$Profile.Id != &apos;00e30000000m0kO&apos;,
+$User.LastName != &apos;CPQ&apos;
+)</errorConditionFormula>
+    <errorMessage>Legacy Terms can not be selected on Quote.</errorMessage>
+</ValidationRule>
