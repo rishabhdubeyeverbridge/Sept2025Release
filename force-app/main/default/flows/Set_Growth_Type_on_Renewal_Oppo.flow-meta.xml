@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Check_Data_Present</name>
+        <label>Check Data Present</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Evaluate_Growth_Type</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Has Data</defaultConnectorLabel>
+        <rules>
+            <name>Missing_Data</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Annual_Recurring_Revenue_ARR__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Available_to_Renew__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Missing Data(ATR/ARR is Blank)</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Checking_Record_Type</name>
+        <label>Checking Record Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Not Renewal</defaultConnectorLabel>
+        <rules>
+            <name>When_Record_Type_is_Renewal</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Renewal</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Type</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Renewal</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.StageName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>6-Closed Won</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.StageName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>7-Closed Lost</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.StageName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>8-SAL Disqualified</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Data_Present</targetReference>
+            </connector>
+            <label>When Record Type is Renewal</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Evaluate_Growth_Type</name>
+        <label>Evaluate Growth Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ARR_less_than_ATR</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Annual_Recurring_Revenue_ARR__c</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <elementReference>$Record.Available_to_Renew__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Changing_Growth_Type_to_Downtick</targetReference>
+            </connector>
+            <label>ARR less than ATR</label>
+        </rules>
+        <rules>
+            <name>ARR_equals_to_ATR</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Annual_Recurring_Revenue_ARR__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record.Available_to_Renew__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Changing_Growth_Type_to_Flat_Renewal</targetReference>
+            </connector>
+            <label>ARR equals to ATR</label>
+        </rules>
+        <rules>
+            <name>ARR_greater_than_ATR</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Annual_Recurring_Revenue_ARR__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <elementReference>$Record.Available_to_Renew__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Changing_Growth_Type_to_uplift</targetReference>
+            </connector>
+            <label>ARR greater than  ATR</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Set Growth Type on Renewal Oppo {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Set Growth Type on Renewal Oppo</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Changing_Growth_Type_to_Downtick</name>
+        <label>Changing Growth Type to Downtick</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Growth_Type__c</field>
+            <value>
+                <stringValue>Downtick</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Changing_Growth_Type_to_Flat_Renewal</name>
+        <label>Changing Growth Type to Flat Renewal</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Growth_Type__c</field>
+            <value>
+                <stringValue>Flat Renewal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Changing_Growth_Type_to_uplift</name>
+        <label>Changing Growth Type to uplift</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Growth_Type__c</field>
+            <value>
+                <stringValue>Renewal Uplift</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Checking_Record_Type</targetReference>
+        </connector>
+        <object>Opportunity</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
